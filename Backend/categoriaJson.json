@@ -1,0 +1,40 @@
+{
+    "categoria": [
+        {
+            "id": "2000",
+            "nombre": "Small",
+            "descripcion": "Instancias para ejecucion de proyectos en consola",
+            "cargaTrabajo": "Minima"
+        },
+        {
+            "id": "2001",
+            "nombre": "Medium",
+            "descripcion": "Instancias para ejecucion de proyectos medios ",
+            "cargaTrabajo": "Medio"
+        },
+        {
+            "id": "2002",
+            "nombre": "Large",
+            "descripcion": "Instancia potente para juegos",
+            "cargaTrabajo": "Maximo"
+        },
+        {
+            "id": "2000",
+            "nombre": "Small",
+            "descripcion": "Instancias para ejecucion de proyectos en consola",
+            "cargaTrabajo": "Minima"
+        },
+        {
+            "id": "2001",
+            "nombre": "Medium",
+            "descripcion": "Instancias para ejecucion de proyectos medios ",
+            "cargaTrabajo": "Medio"
+        },
+        {
+            "id": "2002",
+            "nombre": "Large",
+            "descripcion": "Instancia potente para juegos",
+            "cargaTrabajo": "Maximo"
+        }
+    ]
+}
