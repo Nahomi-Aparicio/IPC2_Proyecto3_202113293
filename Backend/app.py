@@ -1,5 +1,5 @@
 import re
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request,Response
 from flask_cors import CORS
 import xml.etree.ElementTree as ET
 from datos import XML
@@ -12,13 +12,16 @@ leei=XML()
 #
 app=Flask(__name__)
 CORS(app)
+cors=CORS(app, resources={r"/*": {"origins": "*"}})
+
+
 #---------------------------------------------------------------------------------------------------
 Dato=[{'nombre':'pan','apellido':'juan'},{'nombre':'realizado','apellido':'gato'}]
 
 @app.route('/consultaDatos', methods=['GET'])
 def obteniendoDato():
 
-    return jsonify(Dato)
+    return jsonify()
 
 
 @app.route('/consultaDatos', methods=["POST"])
@@ -49,23 +52,56 @@ def obteniendoDatos():
 
     return jsonify(data,data2,data3,data4,data5)
 
-
-
 #--------------------------------------CARGAR DATOS DEL XML------------------------------------------------------------
+
+
 
 @app.route('/cargarDatos', methods=["POST"])
 def cargarDatos():
-    parse_request = request.data.decode('utf-8')
-   
+    parse_request = request.data.decode('utf-8')    
     leei.entrada(parse_request)
-    return (parse_request)
+   
+    dato={'msg':'Datos cargados'}    
+    return jsonify(dato)
+
+@app.route('/cargarDatos', methods=['GET'])
+def potDatos():
+    b=leei.getContCli()
+    c=leei.getContInst()
+    d=leei.getContRe()    
+    if b==0 and c==0 and d==0:
+        datos="no existen  datos"
+    else:
+        datos="archivo subido correctamente\n"
+        datos+="se cargaron "+str(b)+" clientes\n"
+        datos+="se cargaron "+str(c)+" instancias\n"
+        datos+="se cargaron "+str(d)+" recursos\n"
+        print(datos)
+    return Response(datos)
+
+    
 
 @app.route('/cargarDatos2', methods=["POST"])
 def cargarDatos2():
     parse_request2 = request.data.decode('utf-8')
-   
     leei.entrada2lectu(parse_request2)
-    return (parse_request2)
+    dato={'msg':'Datos cargados'}    
+    return jsonify(dato)
+
+@app.route('/cargarDatos2', methods=['GET'])
+def potDatos2():
+    b=leei.getConsum()
+    if b==0:
+        datos="no existen consumos"
+    else:
+        datos="archivo subido correctamente\n"
+        datos+="se cargaron "+str(b)+" consumos\n"
+        print(datos)
+    return Response(datos)
+
+
+
+
 
 #--------------------------------------------------RECURSOS--------------------------------------------------------
 @app.route('/crearRecurso', methods=['POST'])

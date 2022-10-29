@@ -9,7 +9,10 @@ class XML():
     global categoriaJson
     global cateconfigJson
     global  clienteJSon
-    global  instanciaJson
+    global  instanciaJson 
+
+    global consumoJson
+    
 
     recursosJson={}
     recursosJson['recursos']=[]
@@ -25,8 +28,15 @@ class XML():
 
     instanciaJson={}
     instanciaJson['instancia']=[]
-   
 
+    consumoJson={}
+    consumoJson['consumo']=[]
+
+    contCli=0
+    contInst=0
+    contRe=0
+
+    consum=0
     def entrada(self,ruta):
           
         #file = open(ruta,'r', encoding="utf-8")
@@ -34,14 +44,17 @@ class XML():
        
         listaI=[]
         listaR=[]
-        xmldoc = MD.parse(ruta) 
+        file="C:\\Users\\ADMIIN\\Desktop\{}".format(ruta)
+        
+        xmldoc = MD.parse(file) 
         ruta2= xmldoc.documentElement
         listandoR= ruta2.getElementsByTagName("listaRecursos")[0]
         recursos = listandoR.getElementsByTagName("recurso")
 
 #recursos---------------------------------------------------------------------
-
+        contRe=0
         for recurso in recursos:
+            contRe+=1
             idR=recurso.getAttribute("id")
             nombreR=recurso.getElementsByTagName("nombre")[0].firstChild.data
             abrev=recurso.getElementsByTagName("abreviatura")[0].firstChild.data
@@ -50,6 +63,7 @@ class XML():
             valorXh=recurso.getElementsByTagName("valorXhora")[0].firstChild.data
             # aqui separar dato 
             recursosJson['recursos'].append({'id':idR,'nombre': nombreR,'abreviatura': abrev,'metrica': metric,'tipo':tipo,'valorXhora': valorXh})
+            self.contRe=contRe
 # categorias ------------------------------------------------------------
         listandoC= ruta2.getElementsByTagName("listaCategorias")[0]
         categoria=listandoC.getElementsByTagName("categoria")
@@ -77,8 +91,7 @@ class XML():
                     listaR.append(cantidadRecurC)
 
                     
-                print(listaI)
-                print(listaR)
+               
                     # aqui separar dato Backend 
                 cateconfigJson['configuracion'].append({'ID':idC,'id':idConf,'nombre':nombreConf,'descripcion':descripcionConf,'idR': listaI,'Recursos': listaR})
                 listaR=[]
@@ -86,9 +99,13 @@ class XML():
 
 
 #lista clientes-------------------------------------
+        
         listandoCl= ruta2.getElementsByTagName("listaClientes")[0]
         cliente=listandoCl.getElementsByTagName("cliente")
+        contCli=0
+        contInst=0
         for cli in cliente:
+            contCli+=1
             idCl=cli.getAttribute("nit")
             nombreCl=cli.getElementsByTagName("nombre")[0].firstChild.data
             usuaCl=cli.getElementsByTagName("usuario")[0].firstChild.data
@@ -101,6 +118,7 @@ class XML():
 #instancua datos----------------------------------------------------------
             for insta in inst:
             
+                contInst+=1
                 idInst=insta.getAttribute("id")
                 idConf=insta.getElementsByTagName("idConfiguracion")[0].firstChild.data
                 nombreInst=insta.getElementsByTagName("nombre")[0].firstChild.data
@@ -111,7 +129,9 @@ class XML():
                 else:
                     fechafinInst="---"                
                 instanciaJson['instancia'].append({'id': idInst,'idConfiguracion': idConf,'nombre': nombreInst,'fechaInicio': fechaInst,'estado': estInst,'fechaFinal': fechafinInst})
-
+                
+        self.contCli=contCli
+        self.contInst=contInst
         with open('recursosJson.json', 'w+') as file:
             json.dump(recursosJson, file, indent=4)
 
@@ -127,21 +147,39 @@ class XML():
         with open('clienteJSon.json', 'w+') as file:
             json.dump(clienteJSon, file, indent=4)
 
+    def getContCli(self):        
+        return self.contCli
 
+    def getContInst(self):
+        return self.contInst
 
+    def getContRe(self):
+        return self.contRe
+   
 
 
     def entrada2lectu(self, ruta2):
-        xmldoc = MD.parse(ruta2) 
+        file2="C:\\Users\\ADMIIN\\Desktop\{}".format(ruta2)        
+        xmldoc = MD.parse(file2)  
         ruta3= xmldoc.documentElement
         consu = ruta3.getElementsByTagName("consumo")
+        consum=0
         for cons in consu:
             nitConsu=cons.getAttribute("nitCliente")
             idInst=cons.getAttribute("idInstancia")
             tiempow=cons.getElementsByTagName("tiempo")[0].firstChild.data
             fechaConsu=cons.getElementsByTagName("fechaHora")[0].firstChild.data
-           
-            print(nitConsu, idInst, tiempow, fechaConsu)
+            consumoJson['consumo'].append({'nitCliente': nitConsu,'idInstancia': idInst,'tiempo': tiempow,'fechaHora': fechaConsu})
+            consum+=1
+
+        self.consum=consum
+        with open('consumoJson.json', 'w+') as file:
+            json.dump(consumoJson, file, indent=4)
+
+
+    def getConsum(self):
+        return self.consum
+            
                     
                 
 

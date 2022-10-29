@@ -1,0 +1,39 @@
+
+<html>
+<head><style>
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+ th {
+  border: 1px solid #0d0606;
+  text-align: left;
+  padding: 8px;
+}
+
+</style>
+
+</head>
+<body bgcolor="#f4cffe">
+<table width="100%" cellspacing="1" cellpadding="1">
+  <tr >
+    <th  bgcolor="#08b4e3"><center>Subir archivo:</th>
+       
+  </tr>
+  <th align="lef" colspan="2" bgcolor="White">
+
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+<p>Ingrese ruta:</p>
+<input type="entry" name="docs"  size="80"/>
+<input type="submit" value="Subir" />
+
+<p align="center">{{data}}</p>
+</form>
+     </th>
+  </tr>
+</table>
+</body>
+</html>
