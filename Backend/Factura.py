@@ -32,6 +32,7 @@ class haciendoFact:
                             listita.append(tot)
                             break
             totalFac=0
+            print(listita)
             for li in range(len(listita)):
                 totalFac+=float(listita[li])
             html+="<h3>Total de la factura: "+str(totalFac)+"</h3>\n"
