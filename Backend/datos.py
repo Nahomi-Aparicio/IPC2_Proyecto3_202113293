@@ -38,7 +38,7 @@ class XML():
 
     consum=0
     def entrada(self,ruta):
-          
+        
         #file = open(ruta,'r', encoding="utf-8")
         # print(ruta)
        

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+    <head>
+
+    </head>
+    <body>
+        <h1>Recursos</h1>
+        <p>ingrese los datos para el recurso</p>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <p>Ingrese datos:</p>
+            <input type="entry" name="id">
+            <input type="entry" name="nombre" >
+            <input type="entry" name="abreviatura">
+            <input type="entry" name="metrica">
+            <input type="entry" name="tipo">
+            <input type="entry" name="valorXhora">
+            <input type="submit" value="Crear">
+            <p>{{data}}</p>
+        </form>
+    </body>
+</html>

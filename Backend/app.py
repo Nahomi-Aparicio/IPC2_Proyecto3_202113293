@@ -1,11 +1,13 @@
-import re
+
 from flask import Flask, jsonify, request,Response
 from flask_cors import CORS
 import xml.etree.ElementTree as ET
 from datos import XML
 import json
+from Factura import haciendoFact
 
 leei=XML()
+factu=haciendoFact()
 
 
 #cd Backend flask run
@@ -13,7 +15,6 @@ leei=XML()
 app=Flask(__name__)
 CORS(app)
 cors=CORS(app, resources={r"/*": {"origins": "*"}})
-
 
 #---------------------------------------------------------------------------------------------------
 Dato=[{'nombre':'pan','apellido':'juan'},{'nombre':'realizado','apellido':'gato'}]
@@ -27,7 +28,6 @@ def obteniendoDato():
 @app.route('/consultaDatos', methods=["POST"])
 def creandoDato():
     body= request.get_json()
-
     apellido=body['apellido']
     return jsonify({'msg':'Dato agregado'})
 
@@ -58,9 +58,8 @@ def obteniendoDatos():
 
 @app.route('/cargarDatos', methods=["POST"])
 def cargarDatos():
-    parse_request = request.data.decode('utf-8')    
-    leei.entrada(parse_request)
-   
+    parse_request = request.data.decode('utf-8')  #configuracion.xml  
+    leei.entrada(parse_request)   
     dato={'msg':'Datos cargados'}    
     return jsonify(dato)
 
@@ -107,7 +106,7 @@ def potDatos2():
 @app.route('/crearRecurso', methods=['POST'])
 def crearRecurso():
     body= request.get_json()
-    nit=body['id']
+    id=body['id']
     nombre=body['nombre']
     abreviatura=body['abreviatura']
     metrica=body['metrica']
@@ -115,7 +114,7 @@ def crearRecurso():
     valorXhora=body['valorXhora']
     with open('recursosJson.json', "r") as file:
        data = json.load(file)
-    data['recursos'].append({'id':nit,'nombre': nombre,'abreviatura': abreviatura,'metrica': metrica,'tipo':tipo,'valorXhora': valorXhora})
+    data['recursos'].append({'id':id,'nombre': nombre,'abreviatura': abreviatura,'metrica': metrica,'tipo':tipo,'valorXhora': valorXhora})
     with open('recursosJson.json', "w") as file:
          json.dump(data, file)
     Dato = {
@@ -128,7 +127,7 @@ def crearRecurso():
 def getRecurso():
     with open('recursosJson.json', "r") as file:
        data = json.load(file)    
-    return jsonify(data)
+    return Response(data)
 #-----------------------------------------------------CATEGORIAS------------------------------------
 
 @app.route('/crearCategoria', methods=['POST'])
@@ -232,6 +231,90 @@ def crearInstancia():
 
 @app.route('/crearFactura', methods=['POST'])
 def crearFactura():
-    return jsonify('holis factura')
+    
+    body= request.get_json()
+    listita=[]
+    listita2={}
+    listita2['listaClientes']=[]
+
+   
+    
+    listita3=[]
+    listita31={}
+    listita31['listaidre']=[]
+    
+    
+    
+    listita4=[]
+    listita41={}
+    listita41['listaRecursos']=[]
+
+    listita51=[]
+    listita5={}
+    listita5['recursosprin']=[]
+
+    id=body['nitcliente']
+    fechaInicio=body['fechaInicio']
+    fechaFinal=body['fechaFinal']
+   
+    with open('consumoJson.json') as file:
+       data = json.load(file)
+
+    with open('clienteJSon.json', "r") as file:
+        data2 = json.load(file)
+    
+    with open('instanciaJson.json', "r") as file:
+        data3 = json.load(file)
+
+    with open('cateconfigJson.json', "r") as file:
+        data4 = json.load(file)
+
+    with open('recursosJson.json', "r") as file:
+        data5 = json.load(file)
+ 
+
+    for consumo in data['consumo']:            
+        if   id==consumo['nitCliente']:                
+            for cliente in data2['cliente']:
+                if id==cliente['nit']:
+                    listita.append(cliente['nombre'])
+                    listita.append(consumo['nitCliente'])
+                    listita.append(consumo['idInstancia'])
+                    listita.append(float(consumo['tiempo']))
+                    listita.append(consumo['fechaHora'])
+                    for instancia in data3['instancia']:
+                        if consumo['idInstancia']==instancia['id']:
+                            listita.append(instancia['idConfiguracion'])
+                            for categoria in data4['configuracion']:
+                                if instancia['idConfiguracion']==categoria['id']:
+                                    listita.append(categoria['nombre'])
+                                    listita.append(categoria['descripcion'])
+                                    for recusos in categoria['idR']:                                        
+                                        listita3.append(recusos)
+                                    listita31['listaidre'].append(listita3)
+                                    listita3=[]
+                                    for recurso2 in categoria['Recursos']:
+                                        listita4.append(recurso2)                                    
+                                    #recursos de la categoria
+                                    listita41['listaRecursos'].append(listita4)
+                                    listita4=[]
+                    listita2['listaClientes'].append(listita)
+                    listita=[]
+
+#recursos oficial 0.02              
+    for recurso in data5['recursos']:
+        listita51.append(recurso['id'])
+        listita51.append(recurso['nombre'])
+        listita51.append(recurso['abreviatura'])
+        listita51.append(recurso['metrica'])
+        listita51.append(recurso['tipo'])
+        listita51.append(recurso['valorXhora'])
+        listita5['recursosprin'].append(listita51)
+        listita51=[]
+    factu.factur(listita2['listaClientes'],listita31['listaidre'],listita41['listaRecursos'],listita5['recursosprin'])
+    factu.factu2(listita2['listaClientes'],listita31['listaidre'],listita41['listaRecursos'],listita5['recursosprin'])
+    
+    
+    return jsonify(listita2,listita31,listita41,listita5)
 
 

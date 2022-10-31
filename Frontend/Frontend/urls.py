@@ -23,4 +23,5 @@ urlpatterns = [
     path('cargardatos/', cargar, name='cargar'),
     path('consultardatos/', consultar),
     path('consumos/', consumar, name='consumos'),
+    path('agregarRE/', agregarRE, name='agregarRE'),
 ]
