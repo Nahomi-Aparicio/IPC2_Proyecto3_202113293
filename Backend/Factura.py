@@ -42,7 +42,7 @@ class haciendoFact:
         html+="</html>\n"
         htmlsalida.write(html)
         htmlsalida.close()
-        #webbrowser.open_new_tab('salida.html')
+        webbrowser.open_new_tab('salida.html')
 
                         
     def factu2(self,client,idre,re,recur):
