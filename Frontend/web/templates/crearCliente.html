@@ -111,16 +111,16 @@ p{
   <div class="contact_form">
 
     <div class="formulario">      
-      <h1>Recursos</h1>
-        <h3>Porfavor ingrese los datos para crear un nuevo recurso</h3>
+      <h1>Cliente</h1>
+        <h3>Porfavor ingrese los datos para crear un nuevo cliente</h3>
 
 
         <form method="POST" >  
             {% csrf_token %}
             
                 <p>
-                  <label >id </label>
-                  <input type="entry" name="id"  placeholder="Escribe un id">
+                  <label >nit </label>
+                  <input type="entry" name="nit"  placeholder="Escribe un nit">
                 </p>
               
                 <p>
@@ -129,27 +129,22 @@ p{
                 </p>
             
                 <p>
-                    <label >abreviatura</label>
-                    <input type="entry" name="abreviatura" placeholder="Escribe una abreviatura">
+                    <label >usuario</label>
+                    <input type="entry" name="usuario" placeholder="Escribe un usuario">
                   </p>   
               
                   <p>
-                    <label >metrica</label>
-                    <input type="entry" name="metrica" placeholder="Escribe una abreviatura">
+                    <label >direccion</label>
+                    <input type="entry" name="direccion" placeholder="Escribe una direccion">
                   </p>    
               
                   <p>
-                    <label >tipo</label>
-                    <input type="entry" name="tipo" placeholder="Escribe una abreviatura">
+                    <label >correoElectronico</label>
+                    <input type="entry" name="correoElectronico" placeholder="Escribe un correoElectronico">
                   </p>   
               
-                  <p>
-                    <label >valorXhora</label>
-                    <input type="entry" name="valorXhora" placeholder="Escribe una abreviatura">
-                  </p>  
-                
               
-                <input  type="submit" value="Crear">
+                <input type="submit" value="Crear">
 
           </form>
     </div>  

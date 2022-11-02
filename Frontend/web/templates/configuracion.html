@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+    <head>
+
+    </head>
+    <body>
+        <h1>Recursos</h1>
+        <p>ingrese los datos para el recurso</p>
+        <form method="POST" >
+            {% csrf_token %}
+            
+            <p>Ingrese datos:</p>
+            <input type="entry" name="id">
+            <input type="entry" name="id2">
+            <input type="entry" name="nombre" >
+            <input type="entry" name="descripcion">
+            <input type="entry" name="idRc">
+            <input type="entry" name="Recursos">
+            <input type="submit" value="Crear">
+        </form>
+    </body>
+</html>

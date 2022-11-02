@@ -7,7 +7,7 @@
 body{
   height: 100%; 
   font-family: 'Noto Sans', sans-serif;
-  background-color: #7dd8d6; 
+  background-color: #d89f50; 
 }
 
 
@@ -111,43 +111,25 @@ p{
   <div class="contact_form">
 
     <div class="formulario">      
-      <h1>Recursos</h1>
-        <h3>Porfavor ingrese los datos para crear un nuevo recurso</h3>
+      <h1>Crear factura</h1>
+        <h3>Porfavor ingrese los datos para crear su factura</h3>
 
 
         <form method="POST" >  
             {% csrf_token %}
             
                 <p>
-                  <label >id </label>
-                  <input type="entry" name="id"  placeholder="Escribe un id">
+                  <label >nit </label>
+                  <input type="entry" name="nit"  placeholder="Escribe un id">
                 </p>
-              
                 <p>
-                  <label >nombre</label>
-                  <input type="entry" name="nombre" placeholder="Escribe un nombre">
+                  <label >fecha  de inicio </label>
+                  <input type="entry" name="inicial"  placeholder="Escribe un id">
                 </p>
-            
                 <p>
-                    <label >abreviatura</label>
-                    <input type="entry" name="abreviatura" placeholder="Escribe una abreviatura">
-                  </p>   
-              
-                  <p>
-                    <label >metrica</label>
-                    <input type="entry" name="metrica" placeholder="Escribe una abreviatura">
-                  </p>    
-              
-                  <p>
-                    <label >tipo</label>
-                    <input type="entry" name="tipo" placeholder="Escribe una abreviatura">
-                  </p>   
-              
-                  <p>
-                    <label >valorXhora</label>
-                    <input type="entry" name="valorXhora" placeholder="Escribe una abreviatura">
-                  </p>  
-                
+                  <label >fecha  final </label>
+                  <input type="entry" name="final"  placeholder="Escribe un id">
+                </p>
               
                 <input  type="submit" value="Crear">
 

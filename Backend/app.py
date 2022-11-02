@@ -17,11 +17,10 @@ CORS(app)
 cors=CORS(app, resources={r"/*": {"origins": "*"}})
 
 #---------------------------------------------------------------------------------------------------
-Dato=[{'nombre':'pan','apellido':'juan'},{'nombre':'realizado','apellido':'gato'}]
+"""Dato=[{'nombre':'pan','apellido':'juan'},{'nombre':'realizado','apellido':'gato'}]
 
 @app.route('/consultaDatos', methods=['GET'])
 def obteniendoDato():
-
     return jsonify()
 
 
@@ -29,7 +28,7 @@ def obteniendoDato():
 def creandoDato():
     body= request.get_json()
     apellido=body['apellido']
-    return jsonify({'msg':'Dato agregado'})
+    return jsonify({'msg':'Dato agregado'})"""
 
 #-------------------------------------------------------CONSULTA DATOS------------------------------------------------
 @app.route('/consultandoDatos', methods=['GET'])
@@ -77,7 +76,11 @@ def potDatos():
         datos+="se cargaron "+str(d)+" recursos\n"
         print(datos)
     return Response(datos)
-
+"""
+@app.route('/cargarDatos', methods=['GET'])
+def cargarDatos():
+    dato={'msg':'Datos cargados'}  
+    return jsonify(dato)    """
     
 
 @app.route('/cargarDatos2', methods=["POST"])
@@ -98,20 +101,40 @@ def potDatos2():
         print(datos)
     return Response(datos)
 
-
+"""
+@app.route('/crearFactura', methods=['GET'])
+def getcrearFactura():
+    dato={'msg':'Datos cargados'}  
+    return jsonify(dato)    """
 
 
 
 #--------------------------------------------------RECURSOS--------------------------------------------------------
 @app.route('/crearRecurso', methods=['POST'])
 def crearRecurso():
+    """"
     body= request.get_json()
+    
     id=body['id']
+    
     nombre=body['nombre']
     abreviatura=body['abreviatura']
     metrica=body['metrica']
     tipo=body['tipo']
-    valorXhora=body['valorXhora']
+    valorXhora=body['valorXhora']"""
+
+    lista=request.data.decode('utf-8') #si lo pongo como Json F todo 
+    conver=lista.split(',')
+    id=str(conver[0])
+    nombre=str(conver[1])
+    abreviatura=str(conver[2])
+    metrica=str(conver[3])
+    tipo=str(conver[4])
+    valorXhora=str(conver[5])
+    print(id)
+
+    print(id,nombre,abreviatura,metrica,tipo,valorXhora)
+    print(id,nombre,abreviatura,metrica,tipo,valorXhora)
     with open('recursosJson.json', "r") as file:
        data = json.load(file)
     data['recursos'].append({'id':id,'nombre': nombre,'abreviatura': abreviatura,'metrica': metrica,'tipo':tipo,'valorXhora': valorXhora})
@@ -132,14 +155,23 @@ def getRecurso():
 
 @app.route('/crearCategoria', methods=['POST'])
 def crearCategoria():
+    """"
     body2= request.get_json()
     nit=body2['id']
     nombre=body2['nombre']
     descripcion=body2['descripcion']
-    cargaTrabajo=body2['cargaTrabajo']
+    cargaTrabajo=body2['cargaTrabajo']"""
+
+    lista2=request.data.decode('utf-8') 
+    conver1=lista2.split(',')
+    id1=str(conver1[0])
+    nombre=str(conver1[1])
+    descripcion=str(conver1[2])
+    cargaTrabajo=str(conver1[3])
+    
     with open('categoriaJson.json', "r") as file:
          data2 = json.load(file)
-    data2['categoria'].append({'id':nit,'nombre': nombre,'descripcion': descripcion,'cargaTrabajo': cargaTrabajo})
+    data2['categoria'].append({'id':id1,'nombre': nombre,'descripcion': descripcion,'cargaTrabajo': cargaTrabajo})
     with open('categoriaJson.json', "w") as file:
             json.dump(data2, file)
     Datos = {
@@ -158,15 +190,16 @@ def getCategoria():
 @app.route('/crearConfiguracion', methods=['POST'])
 def crearConfiguracion():
     body3= request.get_json()
-    Id=body3['ID']
-    nit=body3['id']
+    id2=body3['ID']
+    id22=body3['id']
     nombre=body3['nombre']
     descripcion=body3['descripcion']
     idRC=body3['idR']
     cantidad=body3['Recursos']
+    
     with open('cateconfigJson.json', "r") as file:
             data3 = json.load(file)
-    data3['configuracion'].append({'ID':Id,'id':nit,'nombre': nombre,'descripcion': descripcion,'idR': idRC,'Recursos':cantidad})
+    data3['configuracion'].append({'ID':id2,'id':id22,'nombre': nombre,'descripcion': descripcion,'idR': idRC,'Recursos':cantidad})
     with open('cateconfigJson.json', "w") as file:
             json.dump(data3, file)
     Datos = {
@@ -184,17 +217,29 @@ def getConfiguracion():
 #-----------------------------------------------------CREARCLIENTE------------------------------------
 @app.route('/crearCliente', methods=['POST'])
 def crearCliente():
+
+    """
     body4= request.get_json()
     nit=body4['nit']
     nombre=body4['nombre']
     usuario=body4['usuario']
     direccion=body4['direccion']
-    correoElectronico=body4['correoElectronico']
+    correoElectronico=body4['correoElectronico']"""
+    lista4=request.data.decode('utf-8')
+    conver4=lista4.split(',')
+    nit=str(conver4[0])
+    nombre=str(conver4[1])
+    usuario=str(conver4[2])
+    direccion=str(conver4[3])
+    correoElectronico=str(conver4[4])
+    
     with open ('clienteJSon.json', "r") as file:
         data4 = json.load(file)
     data4['cliente'].append({'nit':nit,'nombre': nombre,'usuario': usuario,'direccion': direccion,'correoElectronico': correoElectronico})
+
     with open('clienteJSon.json', "w") as file:
             json.dump(data4, file)
+            
     Datos = {
                 'message': 'Cliente agregado Exitosamente',
                 'state':200
@@ -210,16 +255,25 @@ def getCliente():
 #-----------------------------------------------------------------------------------------
 @app.route('/crearInstancia', methods=['POST'])
 def crearInstancia():
-    body5= request.get_json()
+    """body5= request.get_json()
     id=body5['id']
     idConfiguracion=body5['idConfiguracion']
     nombre=body5['nombre']
     fechaInicio=body5['fechaInicio']
     estado=body5['estado']
-    fechaFinal=body5['fechaFinal']
+    fechaFinal=body5['fechaFinal']"""
+    lista5=request.data.decode('utf-8')
+    conver5=lista5.split(',')
+    id5=str(conver5[0])
+    idConfiguracion=str(conver5[1])
+    nombre=str(conver5[2])
+    fechaInicio=str(conver5[3])
+    estado=str(conver5[4])
+    fechaFinal=str(conver5[5])
+
     with open ('instanciaJson.json', "r") as file:
         data5 = json.load(file)
-    data5['instancia'].append({'id':id,'idConfiguracion': idConfiguracion,'nombre': nombre,'fechaInicio': fechaInicio,'estado': estado,'fechaFinal': fechaFinal})
+    data5['instancia'].append({'id':id5,'idConfiguracion': idConfiguracion,'nombre': nombre,'fechaInicio': fechaInicio,'estado': estado,'fechaFinal': fechaFinal})
     with open('instanciaJson.json', "w") as file:
             json.dump(data5, file)
     Datos = {
@@ -232,7 +286,16 @@ def crearInstancia():
 @app.route('/crearFactura', methods=['POST'])
 def crearFactura():
     
-    body= request.get_json()
+    "body= request.get_json()"
+    lista6=request.data.decode('utf-8')
+    conver6=lista6.split(',')
+    nit=str(conver6[0])
+   
+    fechaInicio=str(conver6[1])
+    fechaFinal=str(conver6[2])
+
+
+
     listita=[]
     listita2={}
     listita2['listaClientes']=[]
@@ -253,9 +316,9 @@ def crearFactura():
     listita5={}
     listita5['recursosprin']=[]
 
-    id=body['nitcliente']
+    """id=body['nitcliente']
     fechaInicio=body['fechaInicio']
-    fechaFinal=body['fechaFinal']
+    fechaFinal=body['fechaFinal']"""
    
     with open('consumoJson.json') as file:
        data = json.load(file)
@@ -274,9 +337,9 @@ def crearFactura():
  
 
     for consumo in data['consumo']:            
-        if   id==consumo['nitCliente']:                
+        if   nit==consumo['nitCliente']:                
             for cliente in data2['cliente']:
-                if id==cliente['nit']:
+                if nit==cliente['nit']:
                     listita.append(cliente['nombre'])
                     listita.append(consumo['nitCliente'])
                     listita.append(consumo['idInstancia'])
@@ -298,6 +361,8 @@ def crearFactura():
                                     #recursos de la categoria
                                     listita41['listaRecursos'].append(listita4)
                                     listita4=[]
+                    """ factu.factur(listita2['listaClientes'],listita31['listaidre'],listita41['listaRecursos'],listita5['recursosprin'])
+                    factu.factu2(listita2['listaClientes'],listita31['listaidre'],listita41['listaRecursos'],listita5['recursosprin'])"""
                     listita2['listaClientes'].append(listita)
                     listita=[]
 
@@ -317,4 +382,8 @@ def crearFactura():
     
     return jsonify(listita2,listita31,listita41,listita5)
 
-
+@app.route('/crearFactura', methods=['GET'])
+def getcrearFactura():
+    dato={'msg':'Datos cargados'}  
+    return jsonify(dato)
+    

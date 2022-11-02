@@ -123,12 +123,20 @@ class XML():
                 idConf=insta.getElementsByTagName("idConfiguracion")[0].firstChild.data
                 nombreInst=insta.getElementsByTagName("nombre")[0].firstChild.data
                 fechaInst=insta.getElementsByTagName("fechaInicio")[0].firstChild.data
+                #list=re.findall("\d{2}/\d{2}/\d{4}", fechaInst)
+                lita=re.compile(r'([0-2][0-9]|3[0-1])(\/|-)(0[1-9]|1[0-2])\2(\d{4})')
+                obteni=lita.search(fechaInst)
+                #print(obteni[0])
                 estInst=insta.getElementsByTagName("estado")[0].firstChild.data
                 if estInst == "Cancelada":
                     fechafinInst=insta.getElementsByTagName("fechaFinal")[0].firstChild.data
+                    lita=re.compile(r'([0-2][0-9]|3[0-1])(\/|-)(0[1-9]|1[0-2])\2(\d{4})')
+                    obteni2=lita.search(fechafinInst)
+                    fechafinInst=obteni2[0]
                 else:
-                    fechafinInst="---"                
-                instanciaJson['instancia'].append({'id': idInst,'idConfiguracion': idConf,'nombre': nombreInst,'fechaInicio': fechaInst,'estado': estInst,'fechaFinal': fechafinInst})
+                    fechafinInst="---"
+                          
+                instanciaJson['instancia'].append({'id': idInst,'idConfiguracion': idConf,'nombre': nombreInst,'fechaInicio': obteni[0],'estado': estInst,'fechaFinal': fechafinInst})
                 
         self.contCli=contCli
         self.contInst=contInst
@@ -159,6 +167,7 @@ class XML():
 
 
     def entrada2lectu(self, ruta2):
+         
         file2="C:\\Users\\ADMIIN\\Desktop\{}".format(ruta2)        
         xmldoc = MD.parse(file2)  
         ruta3= xmldoc.documentElement
@@ -169,9 +178,12 @@ class XML():
             idInst=cons.getAttribute("idInstancia")
             tiempow=cons.getElementsByTagName("tiempo")[0].firstChild.data
             fechaConsu=cons.getElementsByTagName("fechaHora")[0].firstChild.data
+            
+
+
             consumoJson['consumo'].append({'nitCliente': nitConsu,'idInstancia': idInst,'tiempo': tiempow,'fechaHora': fechaConsu})
             consum+=1
-
+        
         self.consum=consum
         with open('consumoJson.json', 'w+') as file:
             json.dump(consumoJson, file, indent=4)

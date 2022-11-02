@@ -24,4 +24,10 @@ urlpatterns = [
     path('consultardatos/', consultar),
     path('consumos/', consumar, name='consumos'),
     path('agregarRE/', agregarRE, name='agregarRE'),
+    path('categori/', categori, name='categori'),
+    path('confica/', confica, name='confica'),
+    path ('cliente/', cliente, name='cliente'),
+    path ('instancia/', instancia, name='instancia'),
+    path ('facturita/', facturita, name='facturita'),
+
 ]

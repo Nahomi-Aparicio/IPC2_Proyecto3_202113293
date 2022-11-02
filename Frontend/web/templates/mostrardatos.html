@@ -4,6 +4,18 @@
     </head>
     <body>
         <h1>DATOS DEL SISTEMA</h1>
-            <p>{{data}}</p>
+            <ul>
+                {% for dato in data %}
+                    
+                    <ul>{%for d in dato%}
+                        <li>{{ d }}</li>
+                        <li>{{ dato }}</li>
+                        <h1>   </h1>
+                    
+                    {%endfor%}
+                    </ul>
+                    {% endfor %}
+            </ul>
+            
     </body>
 </html>
