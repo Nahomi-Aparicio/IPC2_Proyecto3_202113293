@@ -1,5 +1,6 @@
 from contextlib import redirect_stderr
 from importlib.resources import contents
+import webbrowser
 from django.shortcuts import render, redirect
 import requests
 import json
@@ -256,3 +257,13 @@ def facturita(request):
         lista6=''
        
         return redirect('facturita')
+
+def inicio(request):
+    return render(request, 'inicio.html')
+
+def ayuda(request):
+   
+        return render(request, 'ayuda.html')
+
+
+

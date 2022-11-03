@@ -1,4 +1,5 @@
 
+import webbrowser
 from flask import Flask, jsonify, request,Response
 from flask_cors import CORS
 import xml.etree.ElementTree as ET
@@ -106,7 +107,6 @@ def potDatos2():
 def getcrearFactura():
     dato={'msg':'Datos cargados'}  
     return jsonify(dato)    """
-
 
 
 #--------------------------------------------------RECURSOS--------------------------------------------------------
@@ -382,8 +382,9 @@ def crearFactura():
     
     return jsonify(listita2,listita31,listita41,listita5)
 
-@app.route('/crearFactura', methods=['GET'])
+""""@app.route('/ayuda', methods=['GET'])
 def getcrearFactura():
+    webbrowser.open_new_tab('[IPC2]Proyecto_3_2S2022-v2.pdf')
     dato={'msg':'Datos cargados'}  
-    return jsonify(dato)
+    return jsonify(dato)"""
     

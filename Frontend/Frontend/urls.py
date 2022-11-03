@@ -19,7 +19,7 @@ from django.urls import path
 from web.views import *
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('', inicio),
     path('cargardatos/', cargar, name='cargar'),
     path('consultardatos/', consultar),
     path('consumos/', consumar, name='consumos'),
@@ -29,5 +29,6 @@ urlpatterns = [
     path ('cliente/', cliente, name='cliente'),
     path ('instancia/', instancia, name='instancia'),
     path ('facturita/', facturita, name='facturita'),
+    path ('ayuda/', ayuda, name='ayuda'),
 
 ]
